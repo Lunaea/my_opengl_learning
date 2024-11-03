@@ -1,0 +1,1 @@
+/usr/bin/g++-12 -g CMakeFiles/my_opengl_learning.dir/main.cpp.o CMakeFiles/my_opengl_learning.dir/glad.c.o -o my_opengl_learning  -lglfw /usr/lib/x86_64-linux-gnu/libGLX.so /usr/lib/x86_64-linux-gnu/libOpenGL.so 
