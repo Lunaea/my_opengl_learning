@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include "glad.h"
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -34,7 +34,7 @@ int main(int, char**){
          0.0f, 0.5f, 0.0f
     };
 
-    uint VBO{};
+    unsigned int VBO{};
     glGenBuffers(1, &VBO);
 
     while(!glfwWindowShouldClose(window))
