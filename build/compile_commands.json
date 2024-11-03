@@ -1,7 +1,0 @@
-[
-{
-  "directory": "/home/testing/repos/opengl/build",
-  "command": "/usr/bin/c++   -g -o CMakeFiles/opengl.dir/main.cpp.o -c /home/testing/repos/opengl/main.cpp",
-  "file": "/home/testing/repos/opengl/main.cpp"
-}
-]
