@@ -29,7 +29,7 @@ int main(int, char**){
         return -1;
     }
 
-    Shader shader{ "/home/testing/repos/my_opengl_learning/shaders/shader.vs", "/home/testing/repos/my_opengl_learning/shaders/shader.fs" };
+    Shader shader{ "shaders/shader.vs", "shaders/shader.fs" };
 
     /*float vertices[]{
          0.5f,  0.5f, 0.0f,
