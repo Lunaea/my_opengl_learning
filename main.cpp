@@ -157,6 +157,9 @@ int main(int, char**){
         glfwPollEvents();
     }
 
+    glDeleteVertexArrays(2, VAO);
+    glDeleteBuffers(2, VBO);
+    glDeleteProgram(shaderProgram);
     glfwTerminate();
 
     return 0;
