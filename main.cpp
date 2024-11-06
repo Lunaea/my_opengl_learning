@@ -39,16 +39,16 @@ int main(int, char**){
     };*/
 
     float vertices[] = {
-        0.0f, 1.0f, 0.0f,  1.0f, 0.0f, 0.0f,
-        1.0f, 0.0f, 0.0f,  0.0f, 1.0f, 0.0f,
-        0.0f, -1.0f, 0.0f, 0.0f, 0.0f, 1.0f       
+        0.5f, -0.5f, 0.0f,      1.0f, 0.0f, 0.0f,
+        -0.5f, -0.5f, 0.0f,     0.0f, 1.0f, 0.0f,
+        0.0f, 0.5f, 0.0f,       0.0f, 0.0f, 1.0f       
     };
 
-    float vertices2[] = {
+    /*float vertices2[] = {
         0.0f, 1.0f, 0.0f,   0.0f, 0.0f, 1.0f,
         -1.0f, 0.0f, 0.0f,  0.0f, 1.0f, 0.0f,
         0.0f, -1.0f, 0.0f,  1.0f, 0.0f, 0.0f
-    };
+    };*/
 
     unsigned int indices[]{
         0, 1, 3,
@@ -81,7 +81,7 @@ int main(int, char**){
     glBindVertexArray(VAO[1]);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices2), vertices2, GL_STATIC_DRAW);
+    //glBufferData(GL_ARRAY_BUFFER, sizeof(vertices2), vertices2, GL_STATIC_DRAW);
 
     // position attribute
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
@@ -99,6 +99,7 @@ int main(int, char**){
         glClear(GL_COLOR_BUFFER_BIT);
 
         shader.use();
+        shader.setFloat("offset", 0.5f);
 
         /*float timeValue = glfwGetTime();
         float greenValue = std::sin(timeValue) / 2.0f + 0.5f;
