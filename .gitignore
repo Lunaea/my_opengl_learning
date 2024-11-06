@@ -31,6 +31,7 @@ bld/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
+[Oo]ut/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
@@ -445,4 +446,6 @@ compile_commands.json
 CTestTestfile.cmake
 _deps
 CMakeUserPresets.json
+CMake*.*
 
+glad.h
