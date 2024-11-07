@@ -54,7 +54,7 @@ int main(int, char**){
         0, 1, 3,
         1, 2, 3
     };
-
+    
     unsigned int VAO[2]{};
     unsigned int VBO[2]{};
     unsigned int EBO{};
@@ -116,13 +116,13 @@ int main(int, char**){
         /*vertexColorLocation = glGetUniformLocation(shaderProgram[1], "ourColor");
         glUniform4f(vertexColorLocation, greenValue, 0.0f, greenValue, 1.0f);*/
 
-        glBindVertexArray(VAO[1]);
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        //glBindVertexArray(VAO[1]);
+        //glDrawArrays(GL_TRIANGLES, 0, 3);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
-
+    
     glDeleteVertexArrays(2, VAO);
     glDeleteBuffers(2, VBO);
     //glDeleteProgram(shaderProgram[0]);
