@@ -35,10 +35,6 @@ int main(int, char**){
 
     Shader shader{ "shaders/shader.vs", "shaders/shader.fs" };
 
-    glm::mat4 trans = glm::mat4(1.0f);
-    trans = glm::rotate(trans, glm::radians(90.0f), glm::vec3(0.0, 0.0, 1.0));
-    trans = glm::scale(trans, glm::vec3(0.5, 0.5, 0.5));
-
     float vertices[]{
         // positions          // colors           // texture coords
          0.5f,  0.5f, 0.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // top right
@@ -160,9 +156,6 @@ int main(int, char**){
     float mixer{ 0.5f };
     shader.setFloat("mixer", mixer);
 
-    unsigned int transformLoc = glGetUniformLocation(shader.ID, "transform");
-    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-
     while(!glfwWindowShouldClose(window))
     {
         processInput(window, mixer);
@@ -194,6 +187,12 @@ int main(int, char**){
 
         //glBindVertexArray(VAO[1]);
         //glDrawArrays(GL_TRIANGLES, 0, 3);
+
+        glm::mat4 trans = glm::mat4(1.0f);
+        trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
+        trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
+        unsigned int transformLoc = glGetUniformLocation(shader.ID, "transform");
+        glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 
         glfwSwapBuffers(window);
         glfwPollEvents();
