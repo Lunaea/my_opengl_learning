@@ -2,6 +2,9 @@
 //#include <cmath>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include "shader.h"
 #include "stb_image.h"
 
@@ -31,6 +34,10 @@ int main(int, char**){
     }
 
     Shader shader{ "shaders/shader.vs", "shaders/shader.fs" };
+
+    glm::mat4 trans = glm::mat4(1.0f);
+    trans = glm::rotate(trans, glm::radians(90.0f), glm::vec3(0.0, 0.0, 1.0));
+    trans = glm::scale(trans, glm::vec3(0.5, 0.5, 0.5));
 
     float vertices[]{
         // positions          // colors           // texture coords
@@ -152,6 +159,9 @@ int main(int, char**){
     shader.setInt("texture2", 1);
     float mixer{ 0.5f };
     shader.setFloat("mixer", mixer);
+
+    unsigned int transformLoc = glGetUniformLocation(shader.ID, "transform");
+    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
 
     while(!glfwWindowShouldClose(window))
     {
