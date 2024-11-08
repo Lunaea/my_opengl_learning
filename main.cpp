@@ -74,13 +74,18 @@ int main(int, char**){
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
     // position attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
     // color attribute
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
+    // texture attribute
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+    glEnableVertexAttribArray(2);
+
+    /*
     glBindVertexArray(VAO[1]);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO[1]);
@@ -93,10 +98,7 @@ int main(int, char**){
     // color attribute
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
-
-    // texture attribute
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-    glEnableVertexAttribArray(2);
+    */
 
     unsigned int texture{};
     glGenTextures(1, &texture);
@@ -129,14 +131,15 @@ int main(int, char**){
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        shader.use();
-        shader.setFloat("offset", 0.5f);
+        //shader.setFloat("offset", 0.5f);
 
         /*float timeValue = glfwGetTime();
         float greenValue = std::sin(timeValue) / 2.0f + 0.5f;
         int vertexColorLocation = glGetUniformLocation(shaderProgram[0], "ourColor");
         glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);*/
 
+        glBindTexture(GL_TEXTURE_2D, texture);
+        shader.use();
         glBindVertexArray(VAO[0]);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
         //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
