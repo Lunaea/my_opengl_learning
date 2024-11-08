@@ -112,6 +112,9 @@ int main(int, char**){
     int width{};
     int height{};
     int nrChannels{};
+
+    stbi_set_flip_vertically_on_load(true);
+
     unsigned char* data = stbi_load("textures/container.jpg", &width, &height, &nrChannels, 0);
     if (data)
     {
