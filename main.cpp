@@ -6,7 +6,7 @@
 #include "stb_image.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-void processInput(GLFWwindow* window, Shader& shader, float& mixer);
+void processInput(GLFWwindow* window, float& mixer);
 
 int main(int, char**){
     glfwInit();
@@ -155,7 +155,7 @@ int main(int, char**){
 
     while(!glfwWindowShouldClose(window))
     {
-        processInput(window, shader, mixer);
+        processInput(window, mixer);
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
@@ -170,6 +170,7 @@ int main(int, char**){
         glBindTexture(GL_TEXTURE_2D, texture);
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, texture2);
+        shader.setFloat("mixer", mixer);
 
         glBindVertexArray(VAO[0]);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
@@ -202,20 +203,14 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     glViewport(0, 0, width, height);
 }
 
-void processInput(GLFWwindow* window, Shader& shader, float& mixer)
+void processInput(GLFWwindow* window, float& mixer)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
 
     if ((glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) && (mixer < 1.0f))
-    {
         mixer += 0.01f;
-        shader.setFloat("mixer", mixer);
-    }
 
     if ((glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) && (mixer > 0.0f))
-    {
         mixer -= 0.01f;
-        shader.setFloat("mixer", mixer);
-    }
 }
