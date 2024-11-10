@@ -368,7 +368,14 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 
     if (pitch > 89.9f)
         pitch = 89.9f;
-    if (pitch < -89.9f)
+    if (pitch < -89.9f) float sensitivity = 0.1f;
+    xoffset *= sensitivity;
+    yoffset *= sensitivity;
+
+    yaw += xoffset;
+    pitch += yoffset;
+
+    if (pitch > 89.9f)
         pitch = -89.9f;
 
     glm::vec3 direction{};
@@ -381,11 +388,12 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
-    if (yoffset > 0 && fov < 180.0f)
-        fov += 1.0f;
+    fov -= (float)yoffset;
+    if (fov < 1.0f)
+        fov = 1.0f;
 
-    if (yoffset < 0 && fov > 0.0f)
-        fov -= 1.0f;
+    if (fov > 78.0f)
+        fov = 78.0f;
 }
 
 void processInput(GLFWwindow* window, float& mixer, float& fov)
