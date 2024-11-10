@@ -211,7 +211,7 @@ int main(int, char**){
         processInput(window, mixer);
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         //shader.setFloat("offset", 0.5f);
 
@@ -261,6 +261,7 @@ int main(int, char**){
 
         shader.setMat4("projection", projection);
 
+        glEnable(GL_DEPTH_TEST);
         glBindVertexArray(VAO[0]);
         glDrawArrays(GL_TRIANGLES, 0, 36);
         //glDrawArrays(GL_TRIANGLES, 0, 3);
