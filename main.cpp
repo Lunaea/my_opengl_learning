@@ -9,7 +9,10 @@
 #include "stb_image.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void processInput(GLFWwindow* window, float& mixer, float& fov);
+
+float fov{ 45.0f };
 
 int main(int, char**){
     glfwInit();
@@ -26,6 +29,7 @@ int main(int, char**){
     }
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    glfwSetScrollCallback(window, scroll_callback);
 
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
@@ -201,7 +205,7 @@ int main(int, char**){
     glUniform1i(glGetUniformLocation(shader.ID, "texture1"), 0);
     shader.setInt("texture2", 1);
     float mixer{ 0.5f };
-    float fov{ 45.0f };
+    //float fov{ 45.0f };
     shader.setFloat("mixer", mixer);
 
     glm::vec3 cubePositions[] = {
@@ -262,7 +266,7 @@ int main(int, char**){
         //model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
 
         glm::mat4 view = glm::mat4(1.0f);
-        view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+        view = glm::translate(view, glm::vec3(0.0f, 0.0f, -5.0f));
 
         //int modelLoc = glGetUniformLocation(shader.ID, "model");
         //glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
@@ -282,7 +286,8 @@ int main(int, char**){
             glm::mat4 model = glm::mat4(1.0f);
             model = glm::translate(model, cubePositions[i]);
             float angle = 20.0f * (i + 1);
-            model = glm::rotate(model, (float)glfwGetTime() * glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
+            if (i % 3 == 0)
+                model = glm::rotate(model, (float)glfwGetTime() * glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
             shader.setMat4("model", model);
 
             glDrawArrays(GL_TRIANGLES, 0, 36);
@@ -317,6 +322,15 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
     glViewport(0, 0, width, height);
 }
 
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+    if (yoffset > 0 && fov < 180.0f)
+        fov += 1.0f;
+
+    if (yoffset < 0 && fov > 0.0f)
+        fov -= 1.0f;
+}
+
 void processInput(GLFWwindow* window, float& mixer, float& fov)
 {
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
@@ -328,11 +342,11 @@ void processInput(GLFWwindow* window, float& mixer, float& fov)
     if ((glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) && (mixer > 0.0f))
         mixer -= 0.01f;
 
-    if ((glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) && (fov < 180.0f))
-        fov += 0.1f;
+    if ((glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) && (fov > 0.0f))
+        fov -= 1.0f;
 
-    if ((glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) && (fov > 0.0f))
-        fov -= 0.1f;
+    if ((glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) && (fov < 180.0f))
+        fov += 1.0f;
 
     if ((glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS))
     {
