@@ -13,6 +13,8 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void processInput(GLFWwindow* window, float& mixer, float& fov);
 
 float fov{ 45.0f };
+float deltaTime = 0.0f;
+float lastFrame = 0.0f;
 glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
@@ -226,6 +228,12 @@ int main(int, char**){
 
     while(!glfwWindowShouldClose(window))
     {
+        float currentFrame = glfwGetTime();
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
+
+        std::cout << 1 / deltaTime << '\n';
+
         processInput(window, mixer, fov);
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
@@ -339,7 +347,7 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 
 void processInput(GLFWwindow* window, float& mixer, float& fov)
 {
-    const float cameraSpeed = 0.05f;
+    const float cameraSpeed = 2.5f * deltaTime;
 
     if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
         glfwSetWindowShouldClose(window, true);
@@ -360,6 +368,7 @@ void processInput(GLFWwindow* window, float& mixer, float& fov)
     {
         mixer = 0.5f;
         fov = 45.0f;
+        cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
     }
 
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
