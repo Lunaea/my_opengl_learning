@@ -450,3 +450,5 @@ CMakeUserPresets.json
 CMake*.*
 
 glad.h
+DartConfiguration.tcl
+my_opengl_learning
