@@ -13,6 +13,7 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void processInput(GLFWwindow* window, float& mixer, float& fov);
 
 float fov{ 45.0f };
+glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
 
 int main(int, char**){
     glfwInit();
@@ -265,8 +266,11 @@ int main(int, char**){
         //glm::mat4 model = glm::mat4(1.0f);
         //model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
 
+        float radius = 10.0f;
+        float camX = std::sin(glfwGetTime()) * radius;
+        float camZ = std::cos(glfwGetTime()) * radius;
         glm::mat4 view = glm::mat4(1.0f);
-        view = glm::translate(view, glm::vec3(0.0f, 0.0f, -5.0f));
+        view = glm::lookAt(glm::vec3(camX, 0.0f, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
         //int modelLoc = glGetUniformLocation(shader.ID, "model");
         //glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
