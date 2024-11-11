@@ -20,6 +20,22 @@ const float SPEED           = 2.5f;
 const float SENSITIVITY     = 0.1f;
 const float ZOOM            = 45.0f;
 
+glm::mat4 lookAt(const glm::vec3& position, const glm::vec3& target, const glm::vec3& up)
+{
+    glm::vec3 cameraDirection = glm::normalize(position - target);
+    glm::vec3 right = glm::normalize(glm::cross(up, cameraDirection));
+
+    glm::mat4 lookAt = glm::mat4(1.0f);
+    lookAt[0] = glm::vec4(right.x, up.x, cameraDirection.x, 0.0f);
+    lookAt[1] = glm::vec4(right.y, up.y, cameraDirection.y, 0.0f);
+    lookAt[2] = glm::vec4(right.z, up.z, cameraDirection.z, 0.0f);
+    
+    glm::mat4 posMat = glm::mat4(1.0f);
+    posMat[3] = glm::vec4(-position, 1.0f);
+
+    return lookAt * posMat;
+}
+
 // An abstract camera class that processes input and calculates the corresponding Euler Angles, Vectors and Matrices for use in OpenGL
 class Camera
 {
@@ -63,7 +79,7 @@ public:
     // returns the view matrix calculated using Euler Angles and the LookAt Matrix
     glm::mat4 GetViewMatrix()
     {
-        return glm::lookAt(Position, Position + Front, Up);
+        return lookAt(Position, Position + Front, Up);
     }
 
     // processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
@@ -78,8 +94,6 @@ public:
             Position -= Right * velocity;
         if (direction == RIGHT)
             Position += Right * velocity;
-
-        Position.y = 0.0f;
     }
 
     // processes input received from a mouse input system. Expects the offset value in both the x and y direction
